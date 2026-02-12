@@ -1,0 +1,25 @@
+-- ==========================================================
+-- Database Setup Script for Market Pulse Pipeline
+-- This script creates the Medallion Architecture schemas.
+-- ==========================================================
+
+-- 1. Create the Schemas
+CREATE SCHEMA IF NOT EXISTS bronze;
+CREATE SCHEMA IF NOT EXISTS silver;
+CREATE SCHEMA IF NOT EXISTS gold;
+
+-- 2. Optional: Create the initial Bronze table 
+-- (Only run this if you aren't using df.to_sql in your initial ingestion)
+CREATE TABLE IF NOT EXISTS bronze.raw_jobs (
+    job_id SERIAL PRIMARY KEY,
+    role VARCHAR(255),
+    company VARCHAR(255),
+    location VARCHAR(255),
+    experience_level VARCHAR(50),
+    salary_lpa FLOAT,
+    skills TEXT,
+    posted_date DATE
+);
+
+-- NOTE: The Python script (bronze_to_silver.py) will automatically 
+-- create the Silver and Gold tables using Pandas .to_sql()
